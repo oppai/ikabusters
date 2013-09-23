@@ -1,0 +1,25 @@
+<script src="./jquery-1.9.0.js" ></script>
+<script src="./socket.io.js" ></script>
+<script>
+$( function(){
+  //WebSocket
+  var socket = io.connect("http://192.168.11.4:9001");
+  socket.on('update', function (data) {
+    console.log(data);
+    $("span#ika-hp").text(data.ika.hp);
+  });
+  $(window).bind("devicemotion", function(e){
+    var a = e.originalEvent.acceleration;
+    var v = Math.sqrt( (a.x*a.x + a.y*a.y + a.z*a.z)/3 );
+    $("#accel").text( v );
+    if(v > 3.0) {
+      socket.emit('attacking',{damage:~~v,name:"device"});
+    }
+  });
+});
+</script>
+<p>
+  <div class="status">HP:<span id="ika-hp">0</span></div>
+  <div class="status">ACC:<span id="accel">0</span></div>
+  Hello ikachan!
+</p>
