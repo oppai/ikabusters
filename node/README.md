@@ -11,8 +11,9 @@ Need npm
   
 How to use
 -----
+1. start up app.js.
 
     $ node app.js
-    
-    Change websocket ip address to your's in "www/index.html".
-    Access "www/index.html" with smart phone browser.
+
+2. Change websocket ip address to your's in "www/index.html".
+3. Access "www/index.html" with smart phone browser.
