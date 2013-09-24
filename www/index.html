@@ -3,10 +3,10 @@
 <script>
 $( function(){
   //WebSocket
-  var socket = io.connect("http://192.168.11.4:9001");
+  var socket = io.connect("http://your_push_server:9001");
   socket.on('update', function (data) {
     console.log(data);
-    $("span#ika-hp").text(data.ika.hp);
+    $("#ika-hp").text(data.ika.hp);
   });
   $(window).bind("devicemotion", function(e){
     var a = e.originalEvent.acceleration;
