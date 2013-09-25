@@ -5,9 +5,21 @@ $( function(){
   //WebSocket
   var socket = io.connect("http://"+location.hostname+":9001");
   socket.on('update', function (data) {
+    console.log(data);
     $("#ika-hp").text(data.ika.hp);
-    $("#hp-display").width( Math.floor( 10000 * data.ika.hp/data.ika.max_hp)/100 + "%" );
   });
+
+  $("#reset").click(function(){
+    var data = {};
+    var hp = $("#set_hp").val();
+    
+    data.ika = {
+      hp: hp,
+      max_hp: hp
+    };
+    socket.emit('init',data);
+  });
+
   $(window).bind("devicemotion", function(e){
     var a = e.originalEvent.acceleration;
     var v = Math.sqrt( (a.x*a.x + a.y*a.y + a.z*a.z)/3 );
@@ -20,10 +32,7 @@ $( function(){
 </script>
 <p>
   <div class="status">HP:<span id="ika-hp">0</span></div>
-  <div class="status">
-    <div style="background-color:#ee1111;width:100%;height:40px;">  
-      <div id="hp-display" style="background-color:#22ee22;width:100%;height:40px;">
-      </div>
-    </div>
-  </div>
+  <div class="status">ACC:<span id="accel">0</span></div>
+  <input type="text" id="set_hp" value="1000" />
+  <input type="button" id="reset" value="Reset" />
 </p>

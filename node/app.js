@@ -17,9 +17,13 @@ function handler (req, res) {
 }
 
 var ika = {
-  hp:1000
+  hp:1000,
+  max_hp:1000,
 };
 io.sockets.on('connection', function (socket) {
+  socket.on('init',function (data){
+    ika = data.ika;
+  });
   socket.on('attacking',function (data){
     ika.hp -= data.damage;
     socket.emit('attacking',data);
@@ -30,6 +34,6 @@ io.sockets.on('connection', function (socket) {
   }
   setInterval(function(){
     update();
-  },1000);
+  },80);
 });
 
