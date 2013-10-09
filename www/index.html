@@ -1,3 +1,4 @@
+<link  rel="stylesheet" href="./common.css" />
 <script src="./jquery-1.9.0.js" ></script>
 <script src="./socket.io.js" ></script>
 <script>
@@ -8,6 +9,7 @@ $( function(){
     $("#ika-hp").text(data.ika.hp);
     $("#hp-display").width( Math.floor( 10000 * data.ika.hp/data.ika.max_hp)/100 + "%" );
   });
+
   $(window).bind("devicemotion", function(e){
     var a = e.originalEvent.acceleration;
     var v = Math.sqrt( (a.x*a.x + a.y*a.y + a.z*a.z)/3 );
@@ -16,6 +18,26 @@ $( function(){
       socket.emit('attacking',{damage:~~v,name:"device"});
     }
   });
+
+  $('#attacking').click(function(){
+    socket.emit('attacking',{damage:10,name:"device"});
+  });
+
+
+  // canvas要素のノードオブジェクト
+  var canvas = $('#canvas')[0];
+  // canvas要素の存在チェックとCanvas未対応ブラウザの対処
+  if ( ! canvas || ! canvas.getContext ) {
+    alert("canvas非対応ブラウザです");
+  }
+  var ctx = canvas.getContext('2d');
+
+  //背景描画
+  function drawBackground() {
+    ctx.fillStyle = 'rgb(235, 235, 235)';
+    ctx.fillRect(0,0,canvas.width,canvas.height);
+  };
+
 });
 </script>
 <p>
@@ -26,4 +48,8 @@ $( function(){
       </div>
     </div>
   </div>
+  <div class="main">
+    <canvas id="canvas" width="320px" height="240px"></canvas>
+  </div>
+    <button id="attacking" class="button">Attack</button>
 </p>
