@@ -40,6 +40,7 @@ io.sockets.on('connection', function (socket) {
       ika.hp = Math.max( 0, ika.hp - data.damage );
       io.sockets.emit('attacking',data);
       update();
+      if(ika.hp == 0) finish();
     }
   });
 
@@ -68,7 +69,7 @@ function start(){
 };
 
 function finish(){
-  io.sockets.emit('finish', {score:timer, clients:clients} );
+  io.sockets.emit('finish', {score:(timer/100), clients:clients} );
   is_scoring = false;
 };
 

@@ -16,8 +16,8 @@ $( function(){
   });
 
   socket.on('finish', function (data) {
-    if( $('#high-score').val() > data.score ){
-      $('#high-score').val(data.score);
+    if( $('#high-score').text() > data.score ){
+      $('#high-score').text(data.score);
     }
   });
 
