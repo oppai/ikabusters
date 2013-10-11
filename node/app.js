@@ -41,19 +41,21 @@ io.sockets.on('connection', function (socket) {
   socket.on('alive',function (){
     c.count = 100;
   });
- 
-  function update(){
-    socket.emit('update',{ika:ika,clients:clients});
-  };
-
-  setInterval(function(){
-    update();
-    c.count -= 1;
-    if(ika.hp < ika.max_hp){
-      ika.hp++;
-    };
-    if(c.count < 0){
-      delete clients[c.id];
-    };
-  },80);
 });
+
+function update(){
+  io.sockets.emit('update',{ika:ika,clients:clients});
+};
+
+setInterval(function(){
+  update();
+  if(ika.hp < ika.max_hp){
+    ika.hp++;
+  };
+  for(var i in clients){
+    clients[i].count--;
+    if(clients[i].count < 0){
+      delete clients[i];
+    };
+  }
+},80);
