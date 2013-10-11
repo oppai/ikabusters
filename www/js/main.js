@@ -1,3 +1,5 @@
+var g_attacking = 0;
+
 $( function(){
   //WebSocket
   var socket = io.connect("http://"+location.hostname+":9001");
@@ -6,6 +8,11 @@ $( function(){
     $("#ika-hp").text(data.ika.hp);
     $("#challenger-num").text(Object.keys(data.clients).length);
     $("#hp-display").css('width',Math.floor( 10000 * data.ika.hp/data.ika.max_hp)/100 + "%" );
+    g_attacking = Math.max(g_attacking - 1,0);
+  });
+
+  socket.on('attacking', function (data) {
+    g_attacking = 5;
   });
 
   $(window).bind("devicemotion", function(e){
@@ -41,7 +48,10 @@ $( function(){
       ctx.drawImage( img, 0, 0, canvas.width, canvas.height);
     };
   };
-  drawBackground();
+  //drawBackground();
 
 });
 
+function isAttacking(){
+  return 0 < g_attacking && g_attacking < 4;
+};

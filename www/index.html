@@ -7,17 +7,110 @@
     <script src="./js/processing-1.4.1.js"></script>
     <script src="./js/main.js" ></script>
     <script type="text/processing" data-processing-target="canvas">
+ParticleSystem ps;
+/* @pjs preload="image/ika.png"; */
+PImage bgImage;
+int p_x=0,p_y=0;
+color p_c;
+
       void setup()
       {
         size(1000,600);
-        PFont fontA = loadFont("courier");
-        textFont(fontA, 14);
+        bgImage = loadImage("image/ika.png");
+        ps = new ParticleSystem(new PVector(width/2,height/2,0));
       }
 
       void draw(){
-        fill(0, 102, 153, 51);
-        text("Hello Web!",20,20);
+        background(bgImage);
+        if (isAttacking()) {
+          ps.addParticle( p_x, p_y, p_c);
+        }else{
+          p_x = random(50,950);
+          p_y = random(50,400);
+          p_c = color(random(0,200), random(0,200), random(0,200));
+        }
+        ps.run();
       }
+
+//============================================
+// class for particle
+//============================================
+
+class ParticleSystem {
+  ArrayList particles;
+  PVector origin;
+
+  ParticleSystem(PVector v) {
+    particles = new ArrayList();
+    origin = v.get();
+  }
+
+  void run() {
+    for (int i = particles.size()-1; i >= 0; i--) {
+      Particle p = (Particle) particles.get(i);
+      p.run();
+      if (p.dead()) {
+        particles.remove(i);
+      }
+    }
+  }
+
+  void addParticle(float x, float y, color c) {
+    particles.add(new Particle(new PVector(x,y), c));
+  }
+
+  boolean dead() {
+    if (particles.isEmpty()) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+}
+
+class Particle {
+  PVector loc;
+  PVector vel;
+  PVector acc;
+  float r;
+  float timer;
+  color col;
+  
+  Particle(PVector l, color c) {
+    acc = new PVector(0, 0.30, 0);
+    vel = new PVector(random(-2, 2),random(-3, 1), 0);
+    loc = l.get();
+    r = 25.0;
+    col = c;
+    timer = 100.0;
+  }
+
+  void run() {
+    update();
+    render();
+  }
+
+  void update() {
+    vel.add(acc);
+    loc.add(vel);
+    timer -= 2.0;
+  }
+
+  void render() {
+    ellipseMode(CENTER);
+    stroke(col, timer);
+    fill(col, timer);
+    ellipse(loc.x, loc.y, r, r);
+  }
+  
+  boolean dead() {
+    if (timer <= 0.0 || loc.y > height || loc.x < 0 || loc.x > width) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+}
   </script>
   </head>
   <body>
