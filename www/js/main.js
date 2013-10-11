@@ -15,6 +15,12 @@ $( function(){
     g_attacking = 5;
   });
 
+  socket.on('finish', function (data) {
+    if( $('#high-score').val() > data.score ){
+      $('#high-score').val(data.score);
+    }
+  });
+
   $(window).bind("devicemotion", function(e){
     var a = e.originalEvent.acceleration;
     var v = Math.sqrt( (a.x*a.x + a.y*a.y + a.z*a.z)/3 );
@@ -22,6 +28,14 @@ $( function(){
     if(v > 3.0) {
       socket.emit('attacking',{damage:~~v,name:"device"});
     }
+  });
+
+  $('#starting').click(function(){
+    socket.emit('start');
+  });
+
+  $('#stopping').click(function(){
+    socket.emit('finish');
   });
 
   $('#attacking').click(function(){
