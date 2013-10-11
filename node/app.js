@@ -19,6 +19,7 @@ function handler (req, res) {
 var ika = {
   hp:10000,
   max_hp:10000,
+  high_score:999,
 };
 var clients = new Object();
 var current_id = 0;
@@ -30,6 +31,8 @@ io.sockets.on('connection', function (socket) {
   var c = {id:current_id,count:100};
   clients[current_id] = c;
   current_id++;
+
+  socket.emit('score',{score:ika.high_score});
 
   socket.on('init', function (data){
     ika = data.ika;

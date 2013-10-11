@@ -15,6 +15,10 @@ $( function(){
     g_attacking = 5;
   });
 
+  socket.on('score', function (data) {
+    $('#high-score').text(data.score);
+  });
+
   socket.on('finish', function (data) {
     if( $('#high-score').text() > data.score ){
       $('#high-score').text(data.score);
