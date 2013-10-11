@@ -34,7 +34,7 @@ io.sockets.on('connection', function (socket) {
   
   socket.on('attacking',function (data){
     ika.hp = Math.max( 0, ika.hp - data.damage );
-    socket.emit('attacking',data);
+    io.sockets.emit('attacking',data);
     update();
   });
 
