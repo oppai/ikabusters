@@ -1,0 +1,29 @@
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <link  rel="stylesheet" href="./css/common.css" />
+    <link  rel="stylesheet" href="./css/bootstrap.min.css" />
+    <script src="./js/jquery-1.9.0.js" ></script>
+    <script src="./js/socket.io.js" ></script>
+    <script src="./js/main.dev.js" ></script>
+  </head>
+  <body>
+    <div class="contents">
+      <h4>ハイスコア: <span id="high-score">0</span></h4>
+    </div>
+    <div class="status">挑戦者人数:<span id="challenger-num">999秒</span>  HP:<span id="ika-hp">0</span></div>
+    <div class="status">
+      <div style="background-color:#ee1111;width:100%;height:40px;">
+        <div id="hp-display" style="background-color:#22ee22;width:100%;height:40px;"></div>
+      </div>
+    </div>
+    <br/>
+    <div class="main">
+      <div class="_debug">
+        <button id="starting" class="button btn-dev">Start</button>
+        <button id="attacking" class="button btn-dev">Attack</button>
+      </div>
+    </div>
+  </body>
+</html>
+
