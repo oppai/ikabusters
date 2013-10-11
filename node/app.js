@@ -33,7 +33,7 @@ io.sockets.on('connection', function (socket) {
   });
   
   socket.on('attacking',function (data){
-    ika.hp -= data.damage;
+    ika.hp = Math.max( 0, ika.hp - data.damage );
     socket.emit('attacking',data);
     update();
   });
@@ -49,6 +49,9 @@ io.sockets.on('connection', function (socket) {
   setInterval(function(){
     update();
     c.count -= 1;
+    if(ika.hp < ika.max_hp){
+      ika.hp++;
+    };
     if(c.count < 0){
       delete clients[c.id];
     };
